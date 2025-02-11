@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "C:/PES/sem 6/CD/Assignment1/sym_tab.h"
+#include "C:/PES/sem 6/CD/Assignment1/mini_c_compiler/sym_tab.h"
 
 table* init_table()	//allocate a new empty symbol table
 {

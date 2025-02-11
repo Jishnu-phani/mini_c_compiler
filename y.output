@@ -1,0 +1,2222 @@
+Terminals unused in grammar
+
+    T_OROR
+    T_ANDAND
+    T_LEFTSHIFT
+    T_RIGHTSHIFT
+    T_PRINTLN
+    T_STRING
+    T_BOOLEAN
+    T_PRINTFF
+    T_SCANFF
+    T_TRUE
+    T_FALSE
+    T_CASE
+    T_SWITCH
+    T_DEFAULT
+
+
+Rules useless in parser due to conflicts
+
+   13 $@2: ε
+
+
+State 21 conflicts: 1 shift/reduce, 3 reduce/reduce
+
+
+Grammar
+
+    0 $accept: START $end
+
+    1 START: PROG
+
+    2 $@1: ε
+
+    3 START: T_INCLUDE '<' T_HEADER $@1 '>' PROG
+
+    4 PROG: MAIN PROG
+    5     | DECLR ';' PROG
+    6     | ASSGN ';' PROG
+    7     | ε
+
+    8 DECLR: TYPE LISTVAR
+
+    9 LISTVAR: LISTVAR ',' VAR
+   10        | VAR
+
+   11 VAR: ASSGN
+   12    | T_ID
+
+   13 $@2: ε
+
+   14 VAR: T_ID $@2 TEMP_VAR
+
+   15 TEMP_VAR: '[' EXPR ']' DIMS
+   16         | ε
+
+   17 DIMS: '[' EXPR ']' DIMS
+   18     | ε
+
+   19 TYPE: T_INT
+   20     | T_FLOAT
+   21     | T_DOUBLE
+   22     | T_CHAR
+   23     | T_VOID
+
+   24 ASSGN: T_ID '=' EXPR
+   25      | T_ID '=' UNARYEXPR
+   26      | T_ID '[' EXPR ']' DIMS '=' EXPR
+   27      | T_ID '[' EXPR ']' DIMS '=' UNARYEXPR
+   28      | T_ID '[' EXPR ']' DIMS '=' ARRDEF
+   29      | T_ID T_SQBRACK '=' ARRDEF
+
+   30 ARRELEM: EXPR ',' ARRELEM
+   31        | EXPR
+   32        | ε
+
+   33 ARRDEF: '{' ARRELEM '}'
+
+   34 UNARYEXPR: T_INC E
+   35          | T_DEC E
+   36          | E T_INC
+   37          | E T_DEC
+
+   38 EXPR: LOGIC_EXPR
+
+   39 LOGIC_EXPR: LOGIC_EXPR T_LOGOR AND_EXPR
+   40           | AND_EXPR
+
+   41 AND_EXPR: AND_EXPR T_LOGAND REL_EXPR
+   42         | REL_EXPR
+
+   43 REL_EXPR: REL_EXPR REL_OP E
+   44         | E
+
+   45 E: E '+' T
+   46  | E '-' T
+   47  | T
+
+   48 T: T '*' F
+   49  | T '/' F
+   50  | F
+
+   51 F: '(' EXPR ')'
+   52  | '!' F
+   53  | T_ID
+   54  | T_NUM
+   55  | T_STRLITERAL
+
+   56 REL_OP: T_LESSEREQ
+   57       | T_GREATEREQ
+   58       | '<'
+   59       | '>'
+   60       | T_EQCOMP
+   61       | T_NOTEQUAL
+
+   62 $@3: ε
+
+   63 MAIN: TYPE T_MAIN $@3 '(' EMPTY_LISTVAR ')' '{' STMT '}'
+
+   64 EMPTY_LISTVAR: LISTVAR
+   65              | ε
+
+   66 STMT: STMT_NO_BLOCK STMT
+   67     | BLOCK STMT
+   68     | ε
+
+   69 STMT_NO_BLOCK: DECLR ';'
+   70              | ASSGN ';'
+   71              | UNARYEXPR ';'
+
+   72 $@4: ε
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK
+
+   74 $@5: ε
+
+   75 $@6: ε
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK T_WHILE $@6 '(' EXPR ')' ';'
+
+   77 $@7: ε
+
+   78 STMT_NO_BLOCK: T_IF $@7 '(' EXPR ')' BLOCK ELSE
+
+   79 $@8: ε
+
+   80 STMT_NO_BLOCK: T_RETURN $@8 EXPR ';'
+
+   81 $@9: ε
+
+   82 STMT_NO_BLOCK: T_WHILE $@9 '(' EXPR ')' BLOCK
+
+   83 $@10: ε
+
+   84 STMT_NO_BLOCK: T_BREAK $@10 ';'
+
+   85 $@11: ε
+
+   86 STMT_NO_BLOCK: T_CONTINUE $@11 ';'
+
+   87 $@12: ε
+
+   88 ELSE: T_ELSE $@12 BLOCK
+   89     | ε
+
+   90 BLOCK: '{' STMT '}'
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '!' (33) 52
+    '(' (40) 51 63 73 76 78 82
+    ')' (41) 51 63 73 76 78 82
+    '*' (42) 48
+    '+' (43) 45
+    ',' (44) 9 30
+    '-' (45) 46
+    '/' (47) 49
+    ';' (59) 5 6 69 70 71 73 76 80 84 86
+    '<' (60) 3 58
+    '=' (61) 24 25 26 27 28 29
+    '>' (62) 3 59
+    '[' (91) 15 17 26 27 28
+    ']' (93) 15 17 26 27 28
+    '{' (123) 33 63 90
+    '}' (125) 33 63 90
+    error (256)
+    T_INT (258) 19
+    T_CHAR (259) 22
+    T_DOUBLE (260) 21
+    T_WHILE (261) 76 82
+    T_INC (262) 34 36
+    T_DEC (263) 35 37
+    T_OROR (264)
+    T_ANDAND (265)
+    T_EQCOMP (266) 60
+    T_NOTEQUAL (267) 61
+    T_GREATEREQ (268) 57
+    T_LESSEREQ (269) 56
+    T_LEFTSHIFT (270)
+    T_RIGHTSHIFT (271)
+    T_PRINTLN (272)
+    T_STRING (273)
+    T_FLOAT (274) 20
+    T_BOOLEAN (275)
+    T_IF (276) 78
+    T_ELSE (277) 88
+    T_STRLITERAL (278) 55
+    T_DO (279) 76
+    T_INCLUDE (280) 3
+    T_HEADER (281) 3
+    T_MAIN (282) 63
+    T_ID (283) 12 14 24 25 26 27 28 29 53
+    T_NUM (284) 54
+    T_PRINTFF (285)
+    T_SCANFF (286)
+    T_VOID (287) 23
+    T_RETURN (288) 80
+    T_FOR (289) 73
+    T_TRUE (290)
+    T_FALSE (291)
+    T_LOGAND (292) 41
+    T_LOGOR (293) 39
+    T_SQBRACK (294) 29
+    T_BREAK (295) 84
+    T_CONTINUE (296) 86
+    T_CASE (297)
+    T_SWITCH (298)
+    T_DEFAULT (299)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (61)
+        on left: 0
+    START (62)
+        on left: 1 3
+        on right: 0
+    $@1 (63)
+        on left: 2
+        on right: 3
+    PROG (64)
+        on left: 4 5 6 7
+        on right: 1 3 4 5 6
+    DECLR (65)
+        on left: 8
+        on right: 5 69 73
+    LISTVAR (66)
+        on left: 9 10
+        on right: 8 9 64
+    VAR (67)
+        on left: 11 12 14
+        on right: 9 10
+    $@2 (68)
+        on left: 13
+        on right: 14
+    TEMP_VAR (69)
+        on left: 15 16
+        on right: 14
+    DIMS (70)
+        on left: 17 18
+        on right: 15 17 26 27 28
+    TYPE (71)
+        on left: 19 20 21 22 23
+        on right: 8 63
+    ASSGN (72)
+        on left: 24 25 26 27 28 29
+        on right: 6 11 70
+    ARRELEM (73)
+        on left: 30 31 32
+        on right: 30 33
+    ARRDEF (74)
+        on left: 33
+        on right: 28 29
+    UNARYEXPR (75)
+        on left: 34 35 36 37
+        on right: 25 27 71 73
+    EXPR (76)
+        on left: 38
+        on right: 15 17 24 26 27 28 30 31 51 73 76 78 80 82
+    LOGIC_EXPR (77)
+        on left: 39 40
+        on right: 38 39
+    AND_EXPR (78)
+        on left: 41 42
+        on right: 39 40 41
+    REL_EXPR (79)
+        on left: 43 44
+        on right: 41 42 43
+    E (80)
+        on left: 45 46 47
+        on right: 34 35 36 37 43 44 45 46
+    T (81)
+        on left: 48 49 50
+        on right: 45 46 47 48 49
+    F (82)
+        on left: 51 52 53 54 55
+        on right: 48 49 50 52
+    REL_OP (83)
+        on left: 56 57 58 59 60 61
+        on right: 43
+    MAIN (84)
+        on left: 63
+        on right: 4
+    $@3 (85)
+        on left: 62
+        on right: 63
+    EMPTY_LISTVAR (86)
+        on left: 64 65
+        on right: 63
+    STMT (87)
+        on left: 66 67 68
+        on right: 63 66 67 90
+    STMT_NO_BLOCK (88)
+        on left: 69 70 71 73 76 78 80 82 84 86
+        on right: 66
+    $@4 (89)
+        on left: 72
+        on right: 73
+    $@5 (90)
+        on left: 74
+        on right: 76
+    $@6 (91)
+        on left: 75
+        on right: 76
+    $@7 (92)
+        on left: 77
+        on right: 78
+    $@8 (93)
+        on left: 79
+        on right: 80
+    $@9 (94)
+        on left: 81
+        on right: 82
+    $@10 (95)
+        on left: 83
+        on right: 84
+    $@11 (96)
+        on left: 85
+        on right: 86
+    ELSE (97)
+        on left: 88 89
+        on right: 78
+    $@12 (98)
+        on left: 87
+        on right: 88
+    BLOCK (99)
+        on left: 90
+        on right: 67 73 76 78 82 88
+
+
+State 0
+
+    0 $accept: • START $end
+
+    T_INT      shift, and go to state 1
+    T_CHAR     shift, and go to state 2
+    T_DOUBLE   shift, and go to state 3
+    T_FLOAT    shift, and go to state 4
+    T_INCLUDE  shift, and go to state 5
+    T_ID       shift, and go to state 6
+    T_VOID     shift, and go to state 7
+
+    $default  reduce using rule 7 (PROG)
+
+    START  go to state 8
+    PROG   go to state 9
+    DECLR  go to state 10
+    TYPE   go to state 11
+    ASSGN  go to state 12
+    MAIN   go to state 13
+
+
+State 1
+
+   19 TYPE: T_INT •
+
+    $default  reduce using rule 19 (TYPE)
+
+
+State 2
+
+   22 TYPE: T_CHAR •
+
+    $default  reduce using rule 22 (TYPE)
+
+
+State 3
+
+   21 TYPE: T_DOUBLE •
+
+    $default  reduce using rule 21 (TYPE)
+
+
+State 4
+
+   20 TYPE: T_FLOAT •
+
+    $default  reduce using rule 20 (TYPE)
+
+
+State 5
+
+    3 START: T_INCLUDE • '<' T_HEADER $@1 '>' PROG
+
+    '<'  shift, and go to state 14
+
+
+State 6
+
+   24 ASSGN: T_ID • '=' EXPR
+   25      | T_ID • '=' UNARYEXPR
+   26      | T_ID • '[' EXPR ']' DIMS '=' EXPR
+   27      | T_ID • '[' EXPR ']' DIMS '=' UNARYEXPR
+   28      | T_ID • '[' EXPR ']' DIMS '=' ARRDEF
+   29      | T_ID • T_SQBRACK '=' ARRDEF
+
+    T_SQBRACK  shift, and go to state 15
+    '['        shift, and go to state 16
+    '='        shift, and go to state 17
+
+
+State 7
+
+   23 TYPE: T_VOID •
+
+    $default  reduce using rule 23 (TYPE)
+
+
+State 8
+
+    0 $accept: START • $end
+
+    $end  shift, and go to state 18
+
+
+State 9
+
+    1 START: PROG •
+
+    $default  reduce using rule 1 (START)
+
+
+State 10
+
+    5 PROG: DECLR • ';' PROG
+
+    ';'  shift, and go to state 19
+
+
+State 11
+
+    8 DECLR: TYPE • LISTVAR
+   63 MAIN: TYPE • T_MAIN $@3 '(' EMPTY_LISTVAR ')' '{' STMT '}'
+
+    T_MAIN  shift, and go to state 20
+    T_ID    shift, and go to state 21
+
+    LISTVAR  go to state 22
+    VAR      go to state 23
+    ASSGN    go to state 24
+
+
+State 12
+
+    6 PROG: ASSGN • ';' PROG
+
+    ';'  shift, and go to state 25
+
+
+State 13
+
+    4 PROG: MAIN • PROG
+
+    T_INT     shift, and go to state 1
+    T_CHAR    shift, and go to state 2
+    T_DOUBLE  shift, and go to state 3
+    T_FLOAT   shift, and go to state 4
+    T_ID      shift, and go to state 6
+    T_VOID    shift, and go to state 7
+
+    $default  reduce using rule 7 (PROG)
+
+    PROG   go to state 26
+    DECLR  go to state 10
+    TYPE   go to state 11
+    ASSGN  go to state 12
+    MAIN   go to state 13
+
+
+State 14
+
+    3 START: T_INCLUDE '<' • T_HEADER $@1 '>' PROG
+
+    T_HEADER  shift, and go to state 27
+
+
+State 15
+
+   29 ASSGN: T_ID T_SQBRACK • '=' ARRDEF
+
+    '='  shift, and go to state 28
+
+
+State 16
+
+   26 ASSGN: T_ID '[' • EXPR ']' DIMS '=' EXPR
+   27      | T_ID '[' • EXPR ']' DIMS '=' UNARYEXPR
+   28      | T_ID '[' • EXPR ']' DIMS '=' ARRDEF
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 34
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 17
+
+   24 ASSGN: T_ID '=' • EXPR
+   25      | T_ID '=' • UNARYEXPR
+
+    T_INC         shift, and go to state 41
+    T_DEC         shift, and go to state 42
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    UNARYEXPR   go to state 43
+    EXPR        go to state 44
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 45
+    T           go to state 39
+    F           go to state 40
+
+
+State 18
+
+    0 $accept: START $end •
+
+    $default  accept
+
+
+State 19
+
+    5 PROG: DECLR ';' • PROG
+
+    T_INT     shift, and go to state 1
+    T_CHAR    shift, and go to state 2
+    T_DOUBLE  shift, and go to state 3
+    T_FLOAT   shift, and go to state 4
+    T_ID      shift, and go to state 6
+    T_VOID    shift, and go to state 7
+
+    $default  reduce using rule 7 (PROG)
+
+    PROG   go to state 46
+    DECLR  go to state 10
+    TYPE   go to state 11
+    ASSGN  go to state 12
+    MAIN   go to state 13
+
+
+State 20
+
+   63 MAIN: TYPE T_MAIN • $@3 '(' EMPTY_LISTVAR ')' '{' STMT '}'
+
+    $default  reduce using rule 62 ($@3)
+
+    $@3  go to state 47
+
+
+State 21
+
+   12 VAR: T_ID •
+   14    | T_ID • $@2 TEMP_VAR
+   24 ASSGN: T_ID • '=' EXPR
+   25      | T_ID • '=' UNARYEXPR
+   26      | T_ID • '[' EXPR ']' DIMS '=' EXPR
+   27      | T_ID • '[' EXPR ']' DIMS '=' UNARYEXPR
+   28      | T_ID • '[' EXPR ']' DIMS '=' ARRDEF
+   29      | T_ID • T_SQBRACK '=' ARRDEF
+
+    T_SQBRACK  shift, and go to state 15
+    '['        shift, and go to state 16
+    '='        shift, and go to state 17
+
+    ';'       reduce using rule 12 (VAR)
+    ';'       [reduce using rule 13 ($@2)]
+    ','       reduce using rule 12 (VAR)
+    ','       [reduce using rule 13 ($@2)]
+    '['       [reduce using rule 13 ($@2)]
+    ')'       reduce using rule 12 (VAR)
+    ')'       [reduce using rule 13 ($@2)]
+    $default  reduce using rule 12 (VAR)
+
+    $@2  go to state 48
+
+
+State 22
+
+    8 DECLR: TYPE LISTVAR •
+    9 LISTVAR: LISTVAR • ',' VAR
+
+    ','  shift, and go to state 49
+
+    $default  reduce using rule 8 (DECLR)
+
+
+State 23
+
+   10 LISTVAR: VAR •
+
+    $default  reduce using rule 10 (LISTVAR)
+
+
+State 24
+
+   11 VAR: ASSGN •
+
+    $default  reduce using rule 11 (VAR)
+
+
+State 25
+
+    6 PROG: ASSGN ';' • PROG
+
+    T_INT     shift, and go to state 1
+    T_CHAR    shift, and go to state 2
+    T_DOUBLE  shift, and go to state 3
+    T_FLOAT   shift, and go to state 4
+    T_ID      shift, and go to state 6
+    T_VOID    shift, and go to state 7
+
+    $default  reduce using rule 7 (PROG)
+
+    PROG   go to state 50
+    DECLR  go to state 10
+    TYPE   go to state 11
+    ASSGN  go to state 12
+    MAIN   go to state 13
+
+
+State 26
+
+    4 PROG: MAIN PROG •
+
+    $default  reduce using rule 4 (PROG)
+
+
+State 27
+
+    3 START: T_INCLUDE '<' T_HEADER • $@1 '>' PROG
+
+    $default  reduce using rule 2 ($@1)
+
+    $@1  go to state 51
+
+
+State 28
+
+   29 ASSGN: T_ID T_SQBRACK '=' • ARRDEF
+
+    '{'  shift, and go to state 52
+
+    ARRDEF  go to state 53
+
+
+State 29
+
+   55 F: T_STRLITERAL •
+
+    $default  reduce using rule 55 (F)
+
+
+State 30
+
+   53 F: T_ID •
+
+    $default  reduce using rule 53 (F)
+
+
+State 31
+
+   54 F: T_NUM •
+
+    $default  reduce using rule 54 (F)
+
+
+State 32
+
+   51 F: '(' • EXPR ')'
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 54
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 33
+
+   52 F: '!' • F
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    F  go to state 55
+
+
+State 34
+
+   26 ASSGN: T_ID '[' EXPR • ']' DIMS '=' EXPR
+   27      | T_ID '[' EXPR • ']' DIMS '=' UNARYEXPR
+   28      | T_ID '[' EXPR • ']' DIMS '=' ARRDEF
+
+    ']'  shift, and go to state 56
+
+
+State 35
+
+   38 EXPR: LOGIC_EXPR •
+   39 LOGIC_EXPR: LOGIC_EXPR • T_LOGOR AND_EXPR
+
+    T_LOGOR  shift, and go to state 57
+
+    $default  reduce using rule 38 (EXPR)
+
+
+State 36
+
+   40 LOGIC_EXPR: AND_EXPR •
+   41 AND_EXPR: AND_EXPR • T_LOGAND REL_EXPR
+
+    T_LOGAND  shift, and go to state 58
+
+    $default  reduce using rule 40 (LOGIC_EXPR)
+
+
+State 37
+
+   42 AND_EXPR: REL_EXPR •
+   43 REL_EXPR: REL_EXPR • REL_OP E
+
+    T_EQCOMP     shift, and go to state 59
+    T_NOTEQUAL   shift, and go to state 60
+    T_GREATEREQ  shift, and go to state 61
+    T_LESSEREQ   shift, and go to state 62
+    '<'          shift, and go to state 63
+    '>'          shift, and go to state 64
+
+    $default  reduce using rule 42 (AND_EXPR)
+
+    REL_OP  go to state 65
+
+
+State 38
+
+   44 REL_EXPR: E •
+   45 E: E • '+' T
+   46  | E • '-' T
+
+    '+'  shift, and go to state 66
+    '-'  shift, and go to state 67
+
+    $default  reduce using rule 44 (REL_EXPR)
+
+
+State 39
+
+   47 E: T •
+   48 T: T • '*' F
+   49  | T • '/' F
+
+    '*'  shift, and go to state 68
+    '/'  shift, and go to state 69
+
+    $default  reduce using rule 47 (E)
+
+
+State 40
+
+   50 T: F •
+
+    $default  reduce using rule 50 (T)
+
+
+State 41
+
+   34 UNARYEXPR: T_INC • E
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    E  go to state 70
+    T  go to state 39
+    F  go to state 40
+
+
+State 42
+
+   35 UNARYEXPR: T_DEC • E
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    E  go to state 71
+    T  go to state 39
+    F  go to state 40
+
+
+State 43
+
+   25 ASSGN: T_ID '=' UNARYEXPR •
+
+    $default  reduce using rule 25 (ASSGN)
+
+
+State 44
+
+   24 ASSGN: T_ID '=' EXPR •
+
+    $default  reduce using rule 24 (ASSGN)
+
+
+State 45
+
+   36 UNARYEXPR: E • T_INC
+   37          | E • T_DEC
+   44 REL_EXPR: E •
+   45 E: E • '+' T
+   46  | E • '-' T
+
+    T_INC  shift, and go to state 72
+    T_DEC  shift, and go to state 73
+    '+'    shift, and go to state 66
+    '-'    shift, and go to state 67
+
+    $default  reduce using rule 44 (REL_EXPR)
+
+
+State 46
+
+    5 PROG: DECLR ';' PROG •
+
+    $default  reduce using rule 5 (PROG)
+
+
+State 47
+
+   63 MAIN: TYPE T_MAIN $@3 • '(' EMPTY_LISTVAR ')' '{' STMT '}'
+
+    '('  shift, and go to state 74
+
+
+State 48
+
+   14 VAR: T_ID $@2 • TEMP_VAR
+
+    '['  shift, and go to state 75
+
+    $default  reduce using rule 16 (TEMP_VAR)
+
+    TEMP_VAR  go to state 76
+
+
+State 49
+
+    9 LISTVAR: LISTVAR ',' • VAR
+
+    T_ID  shift, and go to state 21
+
+    VAR    go to state 77
+    ASSGN  go to state 24
+
+
+State 50
+
+    6 PROG: ASSGN ';' PROG •
+
+    $default  reduce using rule 6 (PROG)
+
+
+State 51
+
+    3 START: T_INCLUDE '<' T_HEADER $@1 • '>' PROG
+
+    '>'  shift, and go to state 78
+
+
+State 52
+
+   33 ARRDEF: '{' • ARRELEM '}'
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    $default  reduce using rule 32 (ARRELEM)
+
+    ARRELEM     go to state 79
+    EXPR        go to state 80
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 53
+
+   29 ASSGN: T_ID T_SQBRACK '=' ARRDEF •
+
+    $default  reduce using rule 29 (ASSGN)
+
+
+State 54
+
+   51 F: '(' EXPR • ')'
+
+    ')'  shift, and go to state 81
+
+
+State 55
+
+   52 F: '!' F •
+
+    $default  reduce using rule 52 (F)
+
+
+State 56
+
+   26 ASSGN: T_ID '[' EXPR ']' • DIMS '=' EXPR
+   27      | T_ID '[' EXPR ']' • DIMS '=' UNARYEXPR
+   28      | T_ID '[' EXPR ']' • DIMS '=' ARRDEF
+
+    '['  shift, and go to state 82
+
+    $default  reduce using rule 18 (DIMS)
+
+    DIMS  go to state 83
+
+
+State 57
+
+   39 LOGIC_EXPR: LOGIC_EXPR T_LOGOR • AND_EXPR
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    AND_EXPR  go to state 84
+    REL_EXPR  go to state 37
+    E         go to state 38
+    T         go to state 39
+    F         go to state 40
+
+
+State 58
+
+   41 AND_EXPR: AND_EXPR T_LOGAND • REL_EXPR
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    REL_EXPR  go to state 85
+    E         go to state 38
+    T         go to state 39
+    F         go to state 40
+
+
+State 59
+
+   60 REL_OP: T_EQCOMP •
+
+    $default  reduce using rule 60 (REL_OP)
+
+
+State 60
+
+   61 REL_OP: T_NOTEQUAL •
+
+    $default  reduce using rule 61 (REL_OP)
+
+
+State 61
+
+   57 REL_OP: T_GREATEREQ •
+
+    $default  reduce using rule 57 (REL_OP)
+
+
+State 62
+
+   56 REL_OP: T_LESSEREQ •
+
+    $default  reduce using rule 56 (REL_OP)
+
+
+State 63
+
+   58 REL_OP: '<' •
+
+    $default  reduce using rule 58 (REL_OP)
+
+
+State 64
+
+   59 REL_OP: '>' •
+
+    $default  reduce using rule 59 (REL_OP)
+
+
+State 65
+
+   43 REL_EXPR: REL_EXPR REL_OP • E
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    E  go to state 86
+    T  go to state 39
+    F  go to state 40
+
+
+State 66
+
+   45 E: E '+' • T
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    T  go to state 87
+    F  go to state 40
+
+
+State 67
+
+   46 E: E '-' • T
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    T  go to state 88
+    F  go to state 40
+
+
+State 68
+
+   48 T: T '*' • F
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    F  go to state 89
+
+
+State 69
+
+   49 T: T '/' • F
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    F  go to state 90
+
+
+State 70
+
+   34 UNARYEXPR: T_INC E •
+   45 E: E • '+' T
+   46  | E • '-' T
+
+    '+'  shift, and go to state 66
+    '-'  shift, and go to state 67
+
+    $default  reduce using rule 34 (UNARYEXPR)
+
+
+State 71
+
+   35 UNARYEXPR: T_DEC E •
+   45 E: E • '+' T
+   46  | E • '-' T
+
+    '+'  shift, and go to state 66
+    '-'  shift, and go to state 67
+
+    $default  reduce using rule 35 (UNARYEXPR)
+
+
+State 72
+
+   36 UNARYEXPR: E T_INC •
+
+    $default  reduce using rule 36 (UNARYEXPR)
+
+
+State 73
+
+   37 UNARYEXPR: E T_DEC •
+
+    $default  reduce using rule 37 (UNARYEXPR)
+
+
+State 74
+
+   63 MAIN: TYPE T_MAIN $@3 '(' • EMPTY_LISTVAR ')' '{' STMT '}'
+
+    T_ID  shift, and go to state 21
+
+    $default  reduce using rule 65 (EMPTY_LISTVAR)
+
+    LISTVAR        go to state 91
+    VAR            go to state 23
+    ASSGN          go to state 24
+    EMPTY_LISTVAR  go to state 92
+
+
+State 75
+
+   15 TEMP_VAR: '[' • EXPR ']' DIMS
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 93
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 76
+
+   14 VAR: T_ID $@2 TEMP_VAR •
+
+    $default  reduce using rule 14 (VAR)
+
+
+State 77
+
+    9 LISTVAR: LISTVAR ',' VAR •
+
+    $default  reduce using rule 9 (LISTVAR)
+
+
+State 78
+
+    3 START: T_INCLUDE '<' T_HEADER $@1 '>' • PROG
+
+    T_INT     shift, and go to state 1
+    T_CHAR    shift, and go to state 2
+    T_DOUBLE  shift, and go to state 3
+    T_FLOAT   shift, and go to state 4
+    T_ID      shift, and go to state 6
+    T_VOID    shift, and go to state 7
+
+    $default  reduce using rule 7 (PROG)
+
+    PROG   go to state 94
+    DECLR  go to state 10
+    TYPE   go to state 11
+    ASSGN  go to state 12
+    MAIN   go to state 13
+
+
+State 79
+
+   33 ARRDEF: '{' ARRELEM • '}'
+
+    '}'  shift, and go to state 95
+
+
+State 80
+
+   30 ARRELEM: EXPR • ',' ARRELEM
+   31        | EXPR •
+
+    ','  shift, and go to state 96
+
+    $default  reduce using rule 31 (ARRELEM)
+
+
+State 81
+
+   51 F: '(' EXPR ')' •
+
+    $default  reduce using rule 51 (F)
+
+
+State 82
+
+   17 DIMS: '[' • EXPR ']' DIMS
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 97
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 83
+
+   26 ASSGN: T_ID '[' EXPR ']' DIMS • '=' EXPR
+   27      | T_ID '[' EXPR ']' DIMS • '=' UNARYEXPR
+   28      | T_ID '[' EXPR ']' DIMS • '=' ARRDEF
+
+    '='  shift, and go to state 98
+
+
+State 84
+
+   39 LOGIC_EXPR: LOGIC_EXPR T_LOGOR AND_EXPR •
+   41 AND_EXPR: AND_EXPR • T_LOGAND REL_EXPR
+
+    T_LOGAND  shift, and go to state 58
+
+    $default  reduce using rule 39 (LOGIC_EXPR)
+
+
+State 85
+
+   41 AND_EXPR: AND_EXPR T_LOGAND REL_EXPR •
+   43 REL_EXPR: REL_EXPR • REL_OP E
+
+    T_EQCOMP     shift, and go to state 59
+    T_NOTEQUAL   shift, and go to state 60
+    T_GREATEREQ  shift, and go to state 61
+    T_LESSEREQ   shift, and go to state 62
+    '<'          shift, and go to state 63
+    '>'          shift, and go to state 64
+
+    $default  reduce using rule 41 (AND_EXPR)
+
+    REL_OP  go to state 65
+
+
+State 86
+
+   43 REL_EXPR: REL_EXPR REL_OP E •
+   45 E: E • '+' T
+   46  | E • '-' T
+
+    '+'  shift, and go to state 66
+    '-'  shift, and go to state 67
+
+    $default  reduce using rule 43 (REL_EXPR)
+
+
+State 87
+
+   45 E: E '+' T •
+   48 T: T • '*' F
+   49  | T • '/' F
+
+    '*'  shift, and go to state 68
+    '/'  shift, and go to state 69
+
+    $default  reduce using rule 45 (E)
+
+
+State 88
+
+   46 E: E '-' T •
+   48 T: T • '*' F
+   49  | T • '/' F
+
+    '*'  shift, and go to state 68
+    '/'  shift, and go to state 69
+
+    $default  reduce using rule 46 (E)
+
+
+State 89
+
+   48 T: T '*' F •
+
+    $default  reduce using rule 48 (T)
+
+
+State 90
+
+   49 T: T '/' F •
+
+    $default  reduce using rule 49 (T)
+
+
+State 91
+
+    9 LISTVAR: LISTVAR • ',' VAR
+   64 EMPTY_LISTVAR: LISTVAR •
+
+    ','  shift, and go to state 49
+
+    $default  reduce using rule 64 (EMPTY_LISTVAR)
+
+
+State 92
+
+   63 MAIN: TYPE T_MAIN $@3 '(' EMPTY_LISTVAR • ')' '{' STMT '}'
+
+    ')'  shift, and go to state 99
+
+
+State 93
+
+   15 TEMP_VAR: '[' EXPR • ']' DIMS
+
+    ']'  shift, and go to state 100
+
+
+State 94
+
+    3 START: T_INCLUDE '<' T_HEADER $@1 '>' PROG •
+
+    $default  reduce using rule 3 (START)
+
+
+State 95
+
+   33 ARRDEF: '{' ARRELEM '}' •
+
+    $default  reduce using rule 33 (ARRDEF)
+
+
+State 96
+
+   30 ARRELEM: EXPR ',' • ARRELEM
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    $default  reduce using rule 32 (ARRELEM)
+
+    ARRELEM     go to state 101
+    EXPR        go to state 80
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 97
+
+   17 DIMS: '[' EXPR • ']' DIMS
+
+    ']'  shift, and go to state 102
+
+
+State 98
+
+   26 ASSGN: T_ID '[' EXPR ']' DIMS '=' • EXPR
+   27      | T_ID '[' EXPR ']' DIMS '=' • UNARYEXPR
+   28      | T_ID '[' EXPR ']' DIMS '=' • ARRDEF
+
+    T_INC         shift, and go to state 41
+    T_DEC         shift, and go to state 42
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '{'           shift, and go to state 52
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    ARRDEF      go to state 103
+    UNARYEXPR   go to state 104
+    EXPR        go to state 105
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 45
+    T           go to state 39
+    F           go to state 40
+
+
+State 99
+
+   63 MAIN: TYPE T_MAIN $@3 '(' EMPTY_LISTVAR ')' • '{' STMT '}'
+
+    '{'  shift, and go to state 106
+
+
+State 100
+
+   15 TEMP_VAR: '[' EXPR ']' • DIMS
+
+    '['  shift, and go to state 82
+
+    $default  reduce using rule 18 (DIMS)
+
+    DIMS  go to state 107
+
+
+State 101
+
+   30 ARRELEM: EXPR ',' ARRELEM •
+
+    $default  reduce using rule 30 (ARRELEM)
+
+
+State 102
+
+   17 DIMS: '[' EXPR ']' • DIMS
+
+    '['  shift, and go to state 82
+
+    $default  reduce using rule 18 (DIMS)
+
+    DIMS  go to state 108
+
+
+State 103
+
+   28 ASSGN: T_ID '[' EXPR ']' DIMS '=' ARRDEF •
+
+    $default  reduce using rule 28 (ASSGN)
+
+
+State 104
+
+   27 ASSGN: T_ID '[' EXPR ']' DIMS '=' UNARYEXPR •
+
+    $default  reduce using rule 27 (ASSGN)
+
+
+State 105
+
+   26 ASSGN: T_ID '[' EXPR ']' DIMS '=' EXPR •
+
+    $default  reduce using rule 26 (ASSGN)
+
+
+State 106
+
+   63 MAIN: TYPE T_MAIN $@3 '(' EMPTY_LISTVAR ')' '{' • STMT '}'
+
+    T_INT         shift, and go to state 1
+    T_CHAR        shift, and go to state 2
+    T_DOUBLE      shift, and go to state 3
+    T_WHILE       shift, and go to state 109
+    T_INC         shift, and go to state 41
+    T_DEC         shift, and go to state 42
+    T_FLOAT       shift, and go to state 4
+    T_IF          shift, and go to state 110
+    T_STRLITERAL  shift, and go to state 29
+    T_DO          shift, and go to state 111
+    T_ID          shift, and go to state 112
+    T_NUM         shift, and go to state 31
+    T_VOID        shift, and go to state 7
+    T_RETURN      shift, and go to state 113
+    T_FOR         shift, and go to state 114
+    T_BREAK       shift, and go to state 115
+    T_CONTINUE    shift, and go to state 116
+    '{'           shift, and go to state 117
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    $default  reduce using rule 68 (STMT)
+
+    DECLR          go to state 118
+    TYPE           go to state 119
+    ASSGN          go to state 120
+    UNARYEXPR      go to state 121
+    E              go to state 122
+    T              go to state 39
+    F              go to state 40
+    STMT           go to state 123
+    STMT_NO_BLOCK  go to state 124
+    BLOCK          go to state 125
+
+
+State 107
+
+   15 TEMP_VAR: '[' EXPR ']' DIMS •
+
+    $default  reduce using rule 15 (TEMP_VAR)
+
+
+State 108
+
+   17 DIMS: '[' EXPR ']' DIMS •
+
+    $default  reduce using rule 17 (DIMS)
+
+
+State 109
+
+   82 STMT_NO_BLOCK: T_WHILE • $@9 '(' EXPR ')' BLOCK
+
+    $default  reduce using rule 81 ($@9)
+
+    $@9  go to state 126
+
+
+State 110
+
+   78 STMT_NO_BLOCK: T_IF • $@7 '(' EXPR ')' BLOCK ELSE
+
+    $default  reduce using rule 77 ($@7)
+
+    $@7  go to state 127
+
+
+State 111
+
+   76 STMT_NO_BLOCK: T_DO • $@5 BLOCK T_WHILE $@6 '(' EXPR ')' ';'
+
+    $default  reduce using rule 74 ($@5)
+
+    $@5  go to state 128
+
+
+State 112
+
+   24 ASSGN: T_ID • '=' EXPR
+   25      | T_ID • '=' UNARYEXPR
+   26      | T_ID • '[' EXPR ']' DIMS '=' EXPR
+   27      | T_ID • '[' EXPR ']' DIMS '=' UNARYEXPR
+   28      | T_ID • '[' EXPR ']' DIMS '=' ARRDEF
+   29      | T_ID • T_SQBRACK '=' ARRDEF
+   53 F: T_ID •
+
+    T_SQBRACK  shift, and go to state 15
+    '['        shift, and go to state 16
+    '='        shift, and go to state 17
+
+    $default  reduce using rule 53 (F)
+
+
+State 113
+
+   80 STMT_NO_BLOCK: T_RETURN • $@8 EXPR ';'
+
+    $default  reduce using rule 79 ($@8)
+
+    $@8  go to state 129
+
+
+State 114
+
+   73 STMT_NO_BLOCK: T_FOR • $@4 '(' DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK
+
+    $default  reduce using rule 72 ($@4)
+
+    $@4  go to state 130
+
+
+State 115
+
+   84 STMT_NO_BLOCK: T_BREAK • $@10 ';'
+
+    $default  reduce using rule 83 ($@10)
+
+    $@10  go to state 131
+
+
+State 116
+
+   86 STMT_NO_BLOCK: T_CONTINUE • $@11 ';'
+
+    $default  reduce using rule 85 ($@11)
+
+    $@11  go to state 132
+
+
+State 117
+
+   90 BLOCK: '{' • STMT '}'
+
+    T_INT         shift, and go to state 1
+    T_CHAR        shift, and go to state 2
+    T_DOUBLE      shift, and go to state 3
+    T_WHILE       shift, and go to state 109
+    T_INC         shift, and go to state 41
+    T_DEC         shift, and go to state 42
+    T_FLOAT       shift, and go to state 4
+    T_IF          shift, and go to state 110
+    T_STRLITERAL  shift, and go to state 29
+    T_DO          shift, and go to state 111
+    T_ID          shift, and go to state 112
+    T_NUM         shift, and go to state 31
+    T_VOID        shift, and go to state 7
+    T_RETURN      shift, and go to state 113
+    T_FOR         shift, and go to state 114
+    T_BREAK       shift, and go to state 115
+    T_CONTINUE    shift, and go to state 116
+    '{'           shift, and go to state 117
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    $default  reduce using rule 68 (STMT)
+
+    DECLR          go to state 118
+    TYPE           go to state 119
+    ASSGN          go to state 120
+    UNARYEXPR      go to state 121
+    E              go to state 122
+    T              go to state 39
+    F              go to state 40
+    STMT           go to state 133
+    STMT_NO_BLOCK  go to state 124
+    BLOCK          go to state 125
+
+
+State 118
+
+   69 STMT_NO_BLOCK: DECLR • ';'
+
+    ';'  shift, and go to state 134
+
+
+State 119
+
+    8 DECLR: TYPE • LISTVAR
+
+    T_ID  shift, and go to state 21
+
+    LISTVAR  go to state 22
+    VAR      go to state 23
+    ASSGN    go to state 24
+
+
+State 120
+
+   70 STMT_NO_BLOCK: ASSGN • ';'
+
+    ';'  shift, and go to state 135
+
+
+State 121
+
+   71 STMT_NO_BLOCK: UNARYEXPR • ';'
+
+    ';'  shift, and go to state 136
+
+
+State 122
+
+   36 UNARYEXPR: E • T_INC
+   37          | E • T_DEC
+   45 E: E • '+' T
+   46  | E • '-' T
+
+    T_INC  shift, and go to state 72
+    T_DEC  shift, and go to state 73
+    '+'    shift, and go to state 66
+    '-'    shift, and go to state 67
+
+
+State 123
+
+   63 MAIN: TYPE T_MAIN $@3 '(' EMPTY_LISTVAR ')' '{' STMT • '}'
+
+    '}'  shift, and go to state 137
+
+
+State 124
+
+   66 STMT: STMT_NO_BLOCK • STMT
+
+    T_INT         shift, and go to state 1
+    T_CHAR        shift, and go to state 2
+    T_DOUBLE      shift, and go to state 3
+    T_WHILE       shift, and go to state 109
+    T_INC         shift, and go to state 41
+    T_DEC         shift, and go to state 42
+    T_FLOAT       shift, and go to state 4
+    T_IF          shift, and go to state 110
+    T_STRLITERAL  shift, and go to state 29
+    T_DO          shift, and go to state 111
+    T_ID          shift, and go to state 112
+    T_NUM         shift, and go to state 31
+    T_VOID        shift, and go to state 7
+    T_RETURN      shift, and go to state 113
+    T_FOR         shift, and go to state 114
+    T_BREAK       shift, and go to state 115
+    T_CONTINUE    shift, and go to state 116
+    '{'           shift, and go to state 117
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    $default  reduce using rule 68 (STMT)
+
+    DECLR          go to state 118
+    TYPE           go to state 119
+    ASSGN          go to state 120
+    UNARYEXPR      go to state 121
+    E              go to state 122
+    T              go to state 39
+    F              go to state 40
+    STMT           go to state 138
+    STMT_NO_BLOCK  go to state 124
+    BLOCK          go to state 125
+
+
+State 125
+
+   67 STMT: BLOCK • STMT
+
+    T_INT         shift, and go to state 1
+    T_CHAR        shift, and go to state 2
+    T_DOUBLE      shift, and go to state 3
+    T_WHILE       shift, and go to state 109
+    T_INC         shift, and go to state 41
+    T_DEC         shift, and go to state 42
+    T_FLOAT       shift, and go to state 4
+    T_IF          shift, and go to state 110
+    T_STRLITERAL  shift, and go to state 29
+    T_DO          shift, and go to state 111
+    T_ID          shift, and go to state 112
+    T_NUM         shift, and go to state 31
+    T_VOID        shift, and go to state 7
+    T_RETURN      shift, and go to state 113
+    T_FOR         shift, and go to state 114
+    T_BREAK       shift, and go to state 115
+    T_CONTINUE    shift, and go to state 116
+    '{'           shift, and go to state 117
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    $default  reduce using rule 68 (STMT)
+
+    DECLR          go to state 118
+    TYPE           go to state 119
+    ASSGN          go to state 120
+    UNARYEXPR      go to state 121
+    E              go to state 122
+    T              go to state 39
+    F              go to state 40
+    STMT           go to state 139
+    STMT_NO_BLOCK  go to state 124
+    BLOCK          go to state 125
+
+
+State 126
+
+   82 STMT_NO_BLOCK: T_WHILE $@9 • '(' EXPR ')' BLOCK
+
+    '('  shift, and go to state 140
+
+
+State 127
+
+   78 STMT_NO_BLOCK: T_IF $@7 • '(' EXPR ')' BLOCK ELSE
+
+    '('  shift, and go to state 141
+
+
+State 128
+
+   76 STMT_NO_BLOCK: T_DO $@5 • BLOCK T_WHILE $@6 '(' EXPR ')' ';'
+
+    '{'  shift, and go to state 117
+
+    BLOCK  go to state 142
+
+
+State 129
+
+   80 STMT_NO_BLOCK: T_RETURN $@8 • EXPR ';'
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 143
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 130
+
+   73 STMT_NO_BLOCK: T_FOR $@4 • '(' DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK
+
+    '('  shift, and go to state 144
+
+
+State 131
+
+   84 STMT_NO_BLOCK: T_BREAK $@10 • ';'
+
+    ';'  shift, and go to state 145
+
+
+State 132
+
+   86 STMT_NO_BLOCK: T_CONTINUE $@11 • ';'
+
+    ';'  shift, and go to state 146
+
+
+State 133
+
+   90 BLOCK: '{' STMT • '}'
+
+    '}'  shift, and go to state 147
+
+
+State 134
+
+   69 STMT_NO_BLOCK: DECLR ';' •
+
+    $default  reduce using rule 69 (STMT_NO_BLOCK)
+
+
+State 135
+
+   70 STMT_NO_BLOCK: ASSGN ';' •
+
+    $default  reduce using rule 70 (STMT_NO_BLOCK)
+
+
+State 136
+
+   71 STMT_NO_BLOCK: UNARYEXPR ';' •
+
+    $default  reduce using rule 71 (STMT_NO_BLOCK)
+
+
+State 137
+
+   63 MAIN: TYPE T_MAIN $@3 '(' EMPTY_LISTVAR ')' '{' STMT '}' •
+
+    $default  reduce using rule 63 (MAIN)
+
+
+State 138
+
+   66 STMT: STMT_NO_BLOCK STMT •
+
+    $default  reduce using rule 66 (STMT)
+
+
+State 139
+
+   67 STMT: BLOCK STMT •
+
+    $default  reduce using rule 67 (STMT)
+
+
+State 140
+
+   82 STMT_NO_BLOCK: T_WHILE $@9 '(' • EXPR ')' BLOCK
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 148
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 141
+
+   78 STMT_NO_BLOCK: T_IF $@7 '(' • EXPR ')' BLOCK ELSE
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 149
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 142
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK • T_WHILE $@6 '(' EXPR ')' ';'
+
+    T_WHILE  shift, and go to state 150
+
+
+State 143
+
+   80 STMT_NO_BLOCK: T_RETURN $@8 EXPR • ';'
+
+    ';'  shift, and go to state 151
+
+
+State 144
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' • DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK
+
+    T_INT     shift, and go to state 1
+    T_CHAR    shift, and go to state 2
+    T_DOUBLE  shift, and go to state 3
+    T_FLOAT   shift, and go to state 4
+    T_VOID    shift, and go to state 7
+
+    DECLR  go to state 152
+    TYPE   go to state 119
+
+
+State 145
+
+   84 STMT_NO_BLOCK: T_BREAK $@10 ';' •
+
+    $default  reduce using rule 84 (STMT_NO_BLOCK)
+
+
+State 146
+
+   86 STMT_NO_BLOCK: T_CONTINUE $@11 ';' •
+
+    $default  reduce using rule 86 (STMT_NO_BLOCK)
+
+
+State 147
+
+   90 BLOCK: '{' STMT '}' •
+
+    $default  reduce using rule 90 (BLOCK)
+
+
+State 148
+
+   82 STMT_NO_BLOCK: T_WHILE $@9 '(' EXPR • ')' BLOCK
+
+    ')'  shift, and go to state 153
+
+
+State 149
+
+   78 STMT_NO_BLOCK: T_IF $@7 '(' EXPR • ')' BLOCK ELSE
+
+    ')'  shift, and go to state 154
+
+
+State 150
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK T_WHILE • $@6 '(' EXPR ')' ';'
+
+    $default  reduce using rule 75 ($@6)
+
+    $@6  go to state 155
+
+
+State 151
+
+   80 STMT_NO_BLOCK: T_RETURN $@8 EXPR ';' •
+
+    $default  reduce using rule 80 (STMT_NO_BLOCK)
+
+
+State 152
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR • ';' EXPR ';' UNARYEXPR ')' BLOCK
+
+    ';'  shift, and go to state 156
+
+
+State 153
+
+   82 STMT_NO_BLOCK: T_WHILE $@9 '(' EXPR ')' • BLOCK
+
+    '{'  shift, and go to state 117
+
+    BLOCK  go to state 157
+
+
+State 154
+
+   78 STMT_NO_BLOCK: T_IF $@7 '(' EXPR ')' • BLOCK ELSE
+
+    '{'  shift, and go to state 117
+
+    BLOCK  go to state 158
+
+
+State 155
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK T_WHILE $@6 • '(' EXPR ')' ';'
+
+    '('  shift, and go to state 159
+
+
+State 156
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR ';' • EXPR ';' UNARYEXPR ')' BLOCK
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 160
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 157
+
+   82 STMT_NO_BLOCK: T_WHILE $@9 '(' EXPR ')' BLOCK •
+
+    $default  reduce using rule 82 (STMT_NO_BLOCK)
+
+
+State 158
+
+   78 STMT_NO_BLOCK: T_IF $@7 '(' EXPR ')' BLOCK • ELSE
+
+    T_ELSE  shift, and go to state 161
+
+    $default  reduce using rule 89 (ELSE)
+
+    ELSE  go to state 162
+
+
+State 159
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK T_WHILE $@6 '(' • EXPR ')' ';'
+
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    EXPR        go to state 163
+    LOGIC_EXPR  go to state 35
+    AND_EXPR    go to state 36
+    REL_EXPR    go to state 37
+    E           go to state 38
+    T           go to state 39
+    F           go to state 40
+
+
+State 160
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR ';' EXPR • ';' UNARYEXPR ')' BLOCK
+
+    ';'  shift, and go to state 164
+
+
+State 161
+
+   88 ELSE: T_ELSE • $@12 BLOCK
+
+    $default  reduce using rule 87 ($@12)
+
+    $@12  go to state 165
+
+
+State 162
+
+   78 STMT_NO_BLOCK: T_IF $@7 '(' EXPR ')' BLOCK ELSE •
+
+    $default  reduce using rule 78 (STMT_NO_BLOCK)
+
+
+State 163
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK T_WHILE $@6 '(' EXPR • ')' ';'
+
+    ')'  shift, and go to state 166
+
+
+State 164
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR ';' EXPR ';' • UNARYEXPR ')' BLOCK
+
+    T_INC         shift, and go to state 41
+    T_DEC         shift, and go to state 42
+    T_STRLITERAL  shift, and go to state 29
+    T_ID          shift, and go to state 30
+    T_NUM         shift, and go to state 31
+    '('           shift, and go to state 32
+    '!'           shift, and go to state 33
+
+    UNARYEXPR  go to state 167
+    E          go to state 122
+    T          go to state 39
+    F          go to state 40
+
+
+State 165
+
+   88 ELSE: T_ELSE $@12 • BLOCK
+
+    '{'  shift, and go to state 117
+
+    BLOCK  go to state 168
+
+
+State 166
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK T_WHILE $@6 '(' EXPR ')' • ';'
+
+    ';'  shift, and go to state 169
+
+
+State 167
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR ';' EXPR ';' UNARYEXPR • ')' BLOCK
+
+    ')'  shift, and go to state 170
+
+
+State 168
+
+   88 ELSE: T_ELSE $@12 BLOCK •
+
+    $default  reduce using rule 88 (ELSE)
+
+
+State 169
+
+   76 STMT_NO_BLOCK: T_DO $@5 BLOCK T_WHILE $@6 '(' EXPR ')' ';' •
+
+    $default  reduce using rule 76 (STMT_NO_BLOCK)
+
+
+State 170
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR ';' EXPR ';' UNARYEXPR ')' • BLOCK
+
+    '{'  shift, and go to state 117
+
+    BLOCK  go to state 171
+
+
+State 171
+
+   73 STMT_NO_BLOCK: T_FOR $@4 '(' DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK •
+
+    $default  reduce using rule 73 (STMT_NO_BLOCK)

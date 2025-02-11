@@ -90,7 +90,12 @@ extern int yydebug;
     T_FALSE = 291,                 /* T_FALSE  */
     T_LOGAND = 292,                /* T_LOGAND  */
     T_LOGOR = 293,                 /* T_LOGOR  */
-    T_SQBRACK = 294                /* T_SQBRACK  */
+    T_SQBRACK = 294,               /* T_SQBRACK  */
+    T_BREAK = 295,                 /* T_BREAK  */
+    T_CONTINUE = 296,              /* T_CONTINUE  */
+    T_CASE = 297,                  /* T_CASE  */
+    T_SWITCH = 298,                /* T_SWITCH  */
+    T_DEFAULT = 299                /* T_DEFAULT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -136,6 +141,11 @@ extern int yydebug;
 #define T_LOGAND 292
 #define T_LOGOR 293
 #define T_SQBRACK 294
+#define T_BREAK 295
+#define T_CONTINUE 296
+#define T_CASE 297
+#define T_SWITCH 298
+#define T_DEFAULT 299
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
