@@ -46,6 +46,11 @@ number	{digits}{opFraction}{opExponent}
 "for"		{return T_FOR;}
 "true"		{return T_TRUE;}
 "false"		{return T_FALSE;}
+"break"		{return T_BREAK;}
+"continue"	{return T_CONTINUE;}
+"case"		{return T_CASE;}
+"switch"	{return T_SWITCH;}
+"default"	{return T_DEFAULT;}
 \".*\"		{yylval=strdup(yytext); return T_STRLITERAL; }
 "=="		{return T_EQCOMP;}
 "!="		{return T_NOTEQUAL;}
