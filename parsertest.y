@@ -55,7 +55,7 @@ LISTVAR : LISTVAR ',' VAR
 
 VAR: ASSGN
      | T_ID { add('V'); }
-     | T_ID {add('V');} '[' EXPR ']' DIMS
+     | T_ID '[' EXPR ']' DIMS
      ;
 
 DIMS: '[' EXPR ']' DIMS
