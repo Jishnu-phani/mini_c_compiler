@@ -29,28 +29,28 @@ number	{digits}{opFraction}{opExponent}
     .|\n    ; // consume everything inside the comment
     <<EOF>> { yyerror("Unterminated comment"); }
 }
-"int" 		{return T_INT;}
-"char"		{return T_CHAR;}
-"double"	{return T_DOUBLE;}
-"float"		{return T_FLOAT;}
-"while" 	{return T_WHILE;}
-"if"		{return T_IF;}
-"else"		{return T_ELSE;}
-"do" 		{return T_DO;}
-"#include" 	{return T_INCLUDE;}
-"main" 		{return T_MAIN;}
-"printf"	{return T_PRINTFF;}
-"scanf"		{return T_SCANFF;}
-"void"		{return T_VOID;}
-"return"	{return T_RETURN;}
-"for"		{return T_FOR;}
-"true"		{return T_TRUE;}
-"false"		{return T_FALSE;}
-"break"		{return T_BREAK;}
-"continue"	{return T_CONTINUE;}
-"case"		{return T_CASE;}
-"switch"	{return T_SWITCH;}
-"default"	{return T_DEFAULT;}
+"int" 		{yylval=strdup(yytext); return T_INT;}
+"char"		{yylval=strdup(yytext); return T_CHAR;}
+"double"	{yylval=strdup(yytext); return T_DOUBLE;}
+"float"		{yylval=strdup(yytext); return T_FLOAT;}
+"while" 	{yylval=strdup(yytext); return T_WHILE;}
+"if"		{yylval=strdup(yytext); return T_IF;}
+"else"		{yylval=strdup(yytext); return T_ELSE;}
+"do" 		{yylval=strdup(yytext); return T_DO;}
+"#include" 	{yylval=strdup(yytext); return T_INCLUDE;}
+"main" 		{yylval=strdup(yytext); return T_MAIN;}
+"printf"	{yylval=strdup(yytext); return T_PRINTFF;}
+"scanf"		{yylval=strdup(yytext); return T_SCANFF;}
+"void"		{yylval=strdup(yytext); return T_VOID;}
+"return"	{yylval=strdup(yytext); return T_RETURN;}
+"for"		{yylval=strdup(yytext); return T_FOR;}
+"true"		{yylval=strdup(yytext); return T_TRUE;}
+"false"		{yylval=strdup(yytext); return T_FALSE;}
+"break"		{yylval=strdup(yytext); return T_BREAK;}
+"continue"	{yylval=strdup(yytext); return T_CONTINUE;}
+"case"		{yylval=strdup(yytext); return T_CASE;}
+"switch"	{yylval=strdup(yytext); return T_SWITCH;}
+"default"	{yylval=strdup(yytext); return T_DEFAULT;}
 \".*\"		{yylval=strdup(yytext); return T_STRLITERAL; }
 "=="		{return T_EQCOMP;}
 "!="		{return T_NOTEQUAL;}
@@ -83,7 +83,7 @@ number	{digits}{opFraction}{opExponent}
 			yylval=strdup(yytext); 
 			return T_NUM;
 		}
-{id}\.h	{return T_HEADER;}
+{id}\.h	{yylval=strdup(yytext); return T_HEADER;}
 {id}        	{
 			yylval=strdup(yytext);
 			return T_ID;

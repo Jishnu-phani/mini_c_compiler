@@ -931,112 +931,112 @@ case YY_STATE_EOF(COMMENT):
 case 8:
 YY_RULE_SETUP
 #line 32 "lexertest.l"
-{return T_INT;}
+{yylval=strdup(yytext); return T_INT;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 33 "lexertest.l"
-{return T_CHAR;}
+{yylval=strdup(yytext); return T_CHAR;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 34 "lexertest.l"
-{return T_DOUBLE;}
+{yylval=strdup(yytext); return T_DOUBLE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 35 "lexertest.l"
-{return T_FLOAT;}
+{yylval=strdup(yytext); return T_FLOAT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 36 "lexertest.l"
-{return T_WHILE;}
+{yylval=strdup(yytext); return T_WHILE;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 37 "lexertest.l"
-{return T_IF;}
+{yylval=strdup(yytext); return T_IF;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 38 "lexertest.l"
-{return T_ELSE;}
+{yylval=strdup(yytext); return T_ELSE;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 39 "lexertest.l"
-{return T_DO;}
+{yylval=strdup(yytext); return T_DO;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 40 "lexertest.l"
-{return T_INCLUDE;}
+{yylval=strdup(yytext); return T_INCLUDE;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 41 "lexertest.l"
-{return T_MAIN;}
+{yylval=strdup(yytext); return T_MAIN;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 42 "lexertest.l"
-{return T_PRINTFF;}
+{yylval=strdup(yytext); return T_PRINTFF;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 43 "lexertest.l"
-{return T_SCANFF;}
+{yylval=strdup(yytext); return T_SCANFF;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 44 "lexertest.l"
-{return T_VOID;}
+{yylval=strdup(yytext); return T_VOID;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 45 "lexertest.l"
-{return T_RETURN;}
+{yylval=strdup(yytext); return T_RETURN;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 46 "lexertest.l"
-{return T_FOR;}
+{yylval=strdup(yytext); return T_FOR;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 47 "lexertest.l"
-{return T_TRUE;}
+{yylval=strdup(yytext); return T_TRUE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 48 "lexertest.l"
-{return T_FALSE;}
+{yylval=strdup(yytext); return T_FALSE;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 49 "lexertest.l"
-{return T_BREAK;}
+{yylval=strdup(yytext); return T_BREAK;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 50 "lexertest.l"
-{return T_CONTINUE;}
+{yylval=strdup(yytext); return T_CONTINUE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 51 "lexertest.l"
-{return T_CASE;}
+{yylval=strdup(yytext); return T_CASE;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 52 "lexertest.l"
-{return T_SWITCH;}
+{yylval=strdup(yytext); return T_SWITCH;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 53 "lexertest.l"
-{return T_DEFAULT;}
+{yylval=strdup(yytext); return T_DEFAULT;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
@@ -1189,7 +1189,7 @@ YY_RULE_SETUP
 case 59:
 YY_RULE_SETUP
 #line 86 "lexertest.l"
-{return T_HEADER;}
+{yylval=strdup(yytext); return T_HEADER;}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
