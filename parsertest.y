@@ -148,13 +148,13 @@ STMT : STMT_NO_BLOCK STMT
 STMT_NO_BLOCK : DECLR ';'
        | ASSGN ';' 
        | UNARYEXPR ';'
-       | T_FOR  '(' DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK { add('K', $1); }
-       | T_DO  BLOCK T_WHILE '(' EXPR ')' ';' { add('K', $1); add('K', $3); }
-       | T_IF'(' EXPR ')' BLOCK ELSE  {add('K', $1);} 
-       | T_RETURN  EXPR ';' { add('K', $1); }
-       | T_WHILE  '(' EXPR ')' BLOCK { add('K', $1); }
-       | T_BREAK  ';' { add('K', $1); }
-       | T_CONTINUE  ';' { add('K', $1); }
+       | T_FOR { add('K', $1); }  '(' DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK 
+       | T_DO { add('K', $1); }  BLOCK T_WHILE { add('K', $4); } '(' EXPR ')' ';'
+       | T_IF { add('K', $1); } '(' EXPR ')' BLOCK ELSE
+       | T_RETURN { add('K', $1); }  EXPR ';' 
+       | T_WHILE { add('K', $1); }  '(' EXPR ')' BLOCK
+       | T_BREAK { add('K', $1); }  ';'
+       | T_CONTINUE { add('K', $1); } ';' 
        ;
 
 ELSE : T_ELSE BLOCK {add('K', $1);}
