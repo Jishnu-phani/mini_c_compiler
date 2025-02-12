@@ -19,7 +19,7 @@
         char* type;
         int line_no;
         int scope;
-    } symbol_table[40];
+    } symbol_table[100];
 
     int count=0;
     int scope = 0;
