@@ -79,6 +79,7 @@ number	{digits}{opFraction}{opExponent}
 "<"         	{return *yytext;}
 "["				{return *yytext;}
 "]"				{return *yytext;}
+":"             {yyerror("Unexpected semicolon"); exit(1);}
 {number}	{
 			yylval=strdup(yytext); 
 			return T_NUM;
@@ -88,7 +89,7 @@ number	{digits}{opFraction}{opExponent}
 			yylval=strdup(yytext);
 			return T_ID;
 		}
-.		{} // anything else => ignore
+.		{ } 
 %%
 
 

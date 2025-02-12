@@ -42,7 +42,7 @@ START : PROG { printf("Valid syntax\n"); YYACCEPT; }
 PROG :  MAIN PROG				
 	| DECLR ';' PROG 				
 	| ASSGN ';' PROG 			
-	| 					
+	| 			
 	;
 	 
 
@@ -148,14 +148,18 @@ STMT : STMT_NO_BLOCK STMT
 STMT_NO_BLOCK : DECLR ';'
        | ASSGN ';' 
        | UNARYEXPR ';'
-       | T_FOR { add('K', $1); }  '(' DECLR ';' EXPR ';' UNARYEXPR ')' BLOCK 
+       | T_FOR { add('K', $1); }  '(' DECLR ';' EXPR ';' UNARYEXPR ')' HANDLER
        | T_DO { add('K', $1); }  BLOCK T_WHILE { add('K', $4); } '(' EXPR ')' ';'
        | T_IF { add('K', $1); } '(' EXPR ')' BLOCK ELSE
        | T_RETURN { add('K', $1); }  EXPR ';' 
-       | T_WHILE { add('K', $1); }  '(' EXPR ')' BLOCK
+       | T_WHILE { add('K', $1); }  '(' EXPR ')' HANDLER
        | T_BREAK { add('K', $1); }  ';'
        | T_CONTINUE { add('K', $1); } ';' 
        ;
+
+HANDLER : BLOCK 
+        | STMT_NO_BLOCK
+        ;
 
 ELSE : T_ELSE BLOCK {add('K', $1);}
        |
@@ -168,6 +172,7 @@ BLOCK : '{'{++scope;} STMT '}'{--scope;};
 void yyerror(const char* s)
 {
 	printf("Error :%s at %d \n",s,yylineno);
+    exit(1);
 }
 
 
