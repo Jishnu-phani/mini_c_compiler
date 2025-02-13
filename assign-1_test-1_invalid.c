@@ -5,7 +5,6 @@ int main()
 	a = 10;
 	b = 11;
 	a = 8997 / 5816 / 4258										//semi-colon missing
-
 	if(a <= b)
 	{
 		int a4;

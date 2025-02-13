@@ -5,6 +5,7 @@
     extern void yyerror(const char *);
     extern char* strdup(const char*);
 	int countn = 0;
+    int colcount = 0;
 %}
 
 digit	[0-9]
@@ -19,9 +20,9 @@ number	{digits}{opFraction}{opExponent}
 %x COMMENT
 
 %%
-\/\/(.*) ; 
-[\t]* ; 
-[\n]		{countn++;}
+\/\/(.*) {colcount += yyleng;} 
+[\t]* {colcount += 4;} 
+[\n]		{countn++; colcount=0;}
 "/*"    { BEGIN(COMMENT); }
 "*/"    { yyerror("Unmatched comment termination"); }
 <COMMENT>{
@@ -29,64 +30,66 @@ number	{digits}{opFraction}{opExponent}
     .|\n    ; // consume everything inside the comment
     <<EOF>> { yyerror("Unterminated comment"); }
 }
-"int" 		{yylval=strdup(yytext); return T_INT;}
-"char"		{yylval=strdup(yytext); return T_CHAR;}
-"double"	{yylval=strdup(yytext); return T_DOUBLE;}
-"float"		{yylval=strdup(yytext); return T_FLOAT;}
-"while" 	{yylval=strdup(yytext); return T_WHILE;}
-"if"		{yylval=strdup(yytext); return T_IF;}
-"else"		{yylval=strdup(yytext); return T_ELSE;}
-"do" 		{yylval=strdup(yytext); return T_DO;}
-"#include" 	{yylval=strdup(yytext); return T_INCLUDE;}
-"main" 		{yylval=strdup(yytext); return T_MAIN;}
-"printf"	{yylval=strdup(yytext); return T_PRINTFF;}
-"scanf"		{yylval=strdup(yytext); return T_SCANFF;}
-"void"		{yylval=strdup(yytext); return T_VOID;}
-"return"	{yylval=strdup(yytext); return T_RETURN;}
-"for"		{yylval=strdup(yytext); return T_FOR;}
-"true"		{yylval=strdup(yytext); return T_TRUE;}
-"false"		{yylval=strdup(yytext); return T_FALSE;}
-"break"		{yylval=strdup(yytext); return T_BREAK;}
-"continue"	{yylval=strdup(yytext); return T_CONTINUE;}
-"case"		{yylval=strdup(yytext); return T_CASE;}
-"switch"	{yylval=strdup(yytext); return T_SWITCH;}
-"default"	{yylval=strdup(yytext); return T_DEFAULT;}
-\".*\"		{yylval=strdup(yytext); return T_STRLITERAL; }
-"=="		{return T_EQCOMP;}
-"!="		{return T_NOTEQUAL;}
-">="        	{return T_GREATEREQ;}
-"<="        	{return T_LESSEREQ;}
-"&&"			{return T_LOGAND;}
-"||"			{return T_LOGOR;}
-"[]"			{return T_SQBRACK;}
-"++"			{return T_INC;}
-"--"			{return T_DEC;}
-"!"				{return *yytext;}
-"("		{return *yytext;}
-")"		{return *yytext;}
-"."         	{return *yytext;}
-","         	{return *yytext;}
-"{"         	{return *yytext;}
-"}"         	{return *yytext;}
-"*"         	{return *yytext;}
-"+"         	{return *yytext;}
-";"         	{return *yytext;}
-"-"         	{return *yytext;}
-"/"         	{return *yytext;}
-"%"				{return *yytext;}
-"="         	{return *yytext;}
-">"         	{return *yytext;}
-"<"         	{return *yytext;}
-"["				{return *yytext;}
-"]"				{return *yytext;}
-":"             {yyerror("Unexpected semicolon"); exit(1);}
+"int" 		{colcount += yyleng;yylval=strdup(yytext); return T_INT;}
+"char"		{colcount += yyleng;yylval=strdup(yytext); return T_CHAR;}
+"double"	{colcount += yyleng;yylval=strdup(yytext); return T_DOUBLE;}
+"float"		{colcount += yyleng;yylval=strdup(yytext); return T_FLOAT;}
+"while" 	{colcount += yyleng;yylval=strdup(yytext); return T_WHILE;}
+"if"		{colcount += yyleng;yylval=strdup(yytext); return T_IF;}
+"else"		{colcount += yyleng;yylval=strdup(yytext); return T_ELSE;}
+"do" 		{colcount += yyleng;yylval=strdup(yytext); return T_DO;}
+"#include" 	{colcount += yyleng;yylval=strdup(yytext); return T_INCLUDE;}
+"main" 		{colcount += yyleng;yylval=strdup(yytext); return T_MAIN;}
+"printf"	{colcount += yyleng;yylval=strdup(yytext); return T_PRINTFF;}
+"scanf"		{colcount += yyleng;yylval=strdup(yytext); return T_SCANFF;}
+"void"		{colcount += yyleng;yylval=strdup(yytext); return T_VOID;}
+"return"	{colcount += yyleng;yylval=strdup(yytext); return T_RETURN;}
+"for"		{colcount += yyleng;yylval=strdup(yytext); return T_FOR;}
+"true"		{colcount += yyleng;yylval=strdup(yytext); return T_TRUE;}
+"false"		{colcount += yyleng;yylval=strdup(yytext); return T_FALSE;}
+"break"		{colcount += yyleng;yylval=strdup(yytext); return T_BREAK;}
+"continue"	{colcount += yyleng;yylval=strdup(yytext); return T_CONTINUE;}
+"case"		{colcount += yyleng;yylval=strdup(yytext); return T_CASE;}
+"switch"	{colcount += yyleng;yylval=strdup(yytext); return T_SWITCH;}
+"default"	{colcount += yyleng;yylval=strdup(yytext); return T_DEFAULT;}
+\".*\"		{colcount += yyleng;yylval=strdup(yytext); return T_STRLITERAL; }
+"=="		{colcount += yyleng;return T_EQCOMP;}
+"!="		{colcount += yyleng;return T_NOTEQUAL;}
+">="        	{colcount += yyleng; return T_GREATEREQ;}
+"<="        	{colcount += yyleng; return T_LESSEREQ;}
+"&&"			{colcount += yyleng; return T_LOGAND;}
+"||"			{colcount += yyleng; return T_LOGOR;}
+"[]"			{colcount += yyleng; return T_SQBRACK;}
+"++"			{colcount += yyleng; return T_INC;}
+"--"			{colcount += yyleng; return T_DEC;}
+"!"				{colcount += yyleng; return *yytext;}
+"("		{colcount += yyleng; return *yytext;}
+")"		{colcount += yyleng; return *yytext;}
+"."         	{colcount += yyleng; return *yytext;}
+","         	{colcount += yyleng; return *yytext;}
+"{"         	{colcount += yyleng; return *yytext;}
+"}"         	{colcount += yyleng; return *yytext;}
+"*"         	{colcount += yyleng; return *yytext;}
+"+"         	{colcount += yyleng; return *yytext;}
+";"         	{colcount += yyleng; return *yytext;}
+"-"         	{colcount += yyleng; return *yytext;}
+"/"         	{colcount += yyleng; return *yytext;}
+"%"				{colcount += yyleng; return *yytext;}
+"="         	{colcount += yyleng; return *yytext;}
+">"         	{colcount += yyleng; return *yytext;}
+"<"         	{colcount += yyleng; return *yytext;}
+"["				{colcount += yyleng; return *yytext;}
+"]"				{colcount += yyleng; return *yytext;}
+":"             {yyerror("Unexpected colon at"); exit(1);}
 {number}	{
 			yylval=strdup(yytext); 
 			return T_NUM;
+            colcount += yyleng;
 		}
-{id}\.h	{yylval=strdup(yytext); return T_HEADER;}
+{id}\.h	{yylval=strdup(yytext); colcount += yyleng; return T_HEADER;}
 {id}        	{
 			yylval=strdup(yytext);
+            colcount += yyleng;
 			return T_ID;
 		}
 .		{ } 

@@ -26,6 +26,7 @@
     int q;
     char type[10];
     extern int countn;
+    extern int colcount;
 
 %}
 
@@ -171,7 +172,7 @@ BLOCK : '{'{++scope;} STMT '}'{--scope;};
 
 void yyerror(const char* s)
 {
-	printf("Error :%s at %d \n",s,yylineno);
+	printf("Error :%s at %d, %d \n",s,yylineno, colcount);
     exit(1);
 }
 
@@ -181,7 +182,7 @@ int main(int argc, char* argv[])
 	yyparse();
     printf("\n\n");
     printf("\t\t\t\t\t PHASE 1: LEXICAL ANALYSIS \n\n");
-    printf("\nSYMBOL\tDATATYPE\tTYPE\tLINE\tNUMBER\tSCOPE\n");
+    printf("\nSYMBOL\tDATATYPE\tTYPE\tLINE NUMBER\tSCOPE\n");
     printf("_____________________________________________\n\n");
     int i=0;
     for(i=0; i<count; i++) {
