@@ -88,6 +88,7 @@
         char* data_type;
         char* type;
         int line_no;
+        int column_no;
         int scope;
     } symbol_table[100];
 
@@ -99,7 +100,7 @@
     extern int colcount;
 
 
-#line 103 "y.tab.c"
+#line 104 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -744,16 +745,16 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    39,    39,    40,    40,    43,    44,    45,    46,    50,
-      54,    55,    58,    59,    60,    63,    64,    67,    68,    69,
-      70,    71,    74,    75,    76,    77,    78,    79,    82,    83,
-      84,    87,    89,    90,    91,    92,    95,    98,    99,   102,
-     103,   106,   107,   110,   111,   112,   116,   117,   118,   121,
-     122,   123,   124,   125,   128,   129,   130,   131,   132,   133,
-     136,   136,   136,   139,   140,   143,   144,   145,   149,   150,
-     151,   152,   152,   153,   153,   153,   154,   154,   155,   155,
-     156,   156,   157,   157,   158,   158,   161,   162,   165,   166,
-     169,   169
+       0,    40,    40,    41,    41,    44,    45,    46,    47,    51,
+      55,    56,    59,    60,    61,    64,    65,    68,    69,    70,
+      71,    72,    75,    76,    77,    78,    79,    80,    83,    84,
+      85,    88,    90,    91,    92,    93,    96,    99,   100,   103,
+     104,   107,   108,   111,   112,   113,   117,   118,   119,   122,
+     123,   124,   125,   126,   129,   130,   131,   132,   133,   134,
+     137,   137,   137,   140,   141,   144,   145,   146,   150,   151,
+     152,   153,   153,   154,   154,   154,   155,   155,   156,   156,
+     157,   157,   158,   158,   159,   159,   162,   163,   166,   167,
+     170,   170
 };
 #endif
 
@@ -1440,205 +1441,205 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* START: PROG  */
-#line 39 "parsertest.y"
+#line 40 "parsertest.y"
              { printf("Valid syntax\n"); YYACCEPT; }
-#line 1446 "y.tab.c"
+#line 1447 "y.tab.c"
     break;
 
   case 3: /* $@1: %empty  */
-#line 40 "parsertest.y"
+#line 41 "parsertest.y"
                                  { add('H', yyvsp[0]); }
-#line 1452 "y.tab.c"
+#line 1453 "y.tab.c"
     break;
 
   case 4: /* START: T_INCLUDE '<' T_HEADER $@1 '>' PROG  */
-#line 40 "parsertest.y"
+#line 41 "parsertest.y"
                                                             { printf("Valid syntax\n"); YYACCEPT;  }
-#line 1458 "y.tab.c"
+#line 1459 "y.tab.c"
     break;
 
   case 13: /* VAR: T_ID  */
-#line 59 "parsertest.y"
+#line 60 "parsertest.y"
             { add('V', yyvsp[0]); }
-#line 1464 "y.tab.c"
+#line 1465 "y.tab.c"
     break;
 
   case 14: /* VAR: T_ID '[' EXPR ']' DIMS  */
-#line 60 "parsertest.y"
+#line 61 "parsertest.y"
                               { add('V', yyvsp[-4]); }
-#line 1470 "y.tab.c"
+#line 1471 "y.tab.c"
     break;
 
   case 17: /* TYPE: T_INT  */
-#line 67 "parsertest.y"
+#line 68 "parsertest.y"
              { insert_type(); add('K', yyvsp[0]); }
-#line 1476 "y.tab.c"
+#line 1477 "y.tab.c"
     break;
 
   case 18: /* TYPE: T_FLOAT  */
-#line 68 "parsertest.y"
+#line 69 "parsertest.y"
                  { insert_type(); add('K', yyvsp[0]); }
-#line 1482 "y.tab.c"
+#line 1483 "y.tab.c"
     break;
 
   case 19: /* TYPE: T_DOUBLE  */
-#line 69 "parsertest.y"
+#line 70 "parsertest.y"
                   { insert_type(); add('K', yyvsp[0]); }
-#line 1488 "y.tab.c"
+#line 1489 "y.tab.c"
     break;
 
   case 20: /* TYPE: T_CHAR  */
-#line 70 "parsertest.y"
+#line 71 "parsertest.y"
                 { insert_type(); add('K', yyvsp[0]); }
-#line 1494 "y.tab.c"
+#line 1495 "y.tab.c"
     break;
 
   case 21: /* TYPE: T_VOID  */
-#line 71 "parsertest.y"
+#line 72 "parsertest.y"
                 { insert_type(); add('K', yyvsp[0]); }
-#line 1500 "y.tab.c"
+#line 1501 "y.tab.c"
     break;
 
   case 22: /* ASSGN: T_ID '=' EXPR  */
-#line 74 "parsertest.y"
+#line 75 "parsertest.y"
                       { add('V', yyvsp[-2]); }
-#line 1506 "y.tab.c"
+#line 1507 "y.tab.c"
     break;
 
   case 23: /* ASSGN: T_ID '=' UNARYEXPR  */
-#line 75 "parsertest.y"
+#line 76 "parsertest.y"
                            { add('V', yyvsp[-2]); }
-#line 1512 "y.tab.c"
+#line 1513 "y.tab.c"
     break;
 
   case 24: /* ASSGN: T_ID '[' EXPR ']' DIMS '=' EXPR  */
-#line 76 "parsertest.y"
+#line 77 "parsertest.y"
                                         { add('V', yyvsp[-6]); }
-#line 1518 "y.tab.c"
+#line 1519 "y.tab.c"
     break;
 
   case 25: /* ASSGN: T_ID '[' EXPR ']' DIMS '=' UNARYEXPR  */
-#line 77 "parsertest.y"
+#line 78 "parsertest.y"
                                              { add('V', yyvsp[-6]); }
-#line 1524 "y.tab.c"
+#line 1525 "y.tab.c"
     break;
 
   case 26: /* ASSGN: T_ID '[' EXPR ']' DIMS '=' ARRDEF  */
-#line 78 "parsertest.y"
+#line 79 "parsertest.y"
                                           { add('V', yyvsp[-6]); }
-#line 1530 "y.tab.c"
+#line 1531 "y.tab.c"
     break;
 
   case 27: /* ASSGN: T_ID T_SQBRACK '=' ARRDEF  */
-#line 79 "parsertest.y"
+#line 80 "parsertest.y"
                                   { add('V', yyvsp[-3]); }
-#line 1536 "y.tab.c"
+#line 1537 "y.tab.c"
     break;
 
   case 51: /* F: T_ID  */
-#line 123 "parsertest.y"
+#line 124 "parsertest.y"
            {add('V', yyvsp[0]);}
-#line 1542 "y.tab.c"
+#line 1543 "y.tab.c"
     break;
 
   case 52: /* F: T_NUM  */
-#line 124 "parsertest.y"
+#line 125 "parsertest.y"
             { add('C', yyvsp[0]); }
-#line 1548 "y.tab.c"
+#line 1549 "y.tab.c"
     break;
 
   case 53: /* F: T_STRLITERAL  */
-#line 125 "parsertest.y"
+#line 126 "parsertest.y"
                    { add('C', yyvsp[0]); }
-#line 1554 "y.tab.c"
+#line 1555 "y.tab.c"
     break;
 
   case 60: /* $@2: %empty  */
-#line 136 "parsertest.y"
+#line 137 "parsertest.y"
                    { add('F',yyvsp[0]); }
-#line 1560 "y.tab.c"
+#line 1561 "y.tab.c"
     break;
 
   case 61: /* $@3: %empty  */
-#line 136 "parsertest.y"
+#line 137 "parsertest.y"
                                                              {++scope;}
-#line 1566 "y.tab.c"
+#line 1567 "y.tab.c"
     break;
 
   case 62: /* MAIN: TYPE T_MAIN $@2 '(' EMPTY_LISTVAR ')' '{' $@3 STMT '}'  */
-#line 136 "parsertest.y"
+#line 137 "parsertest.y"
                                                                                  {--scope;}
-#line 1572 "y.tab.c"
+#line 1573 "y.tab.c"
     break;
 
   case 71: /* $@4: %empty  */
-#line 152 "parsertest.y"
+#line 153 "parsertest.y"
                { add('K', yyvsp[0]); }
-#line 1578 "y.tab.c"
+#line 1579 "y.tab.c"
     break;
 
   case 73: /* $@5: %empty  */
-#line 153 "parsertest.y"
+#line 154 "parsertest.y"
               { add('K', yyvsp[0]); }
-#line 1584 "y.tab.c"
+#line 1585 "y.tab.c"
     break;
 
   case 74: /* $@6: %empty  */
-#line 153 "parsertest.y"
+#line 154 "parsertest.y"
                                                { add('K', yyvsp[0]); }
-#line 1590 "y.tab.c"
+#line 1591 "y.tab.c"
     break;
 
   case 76: /* $@7: %empty  */
-#line 154 "parsertest.y"
+#line 155 "parsertest.y"
               { add('K', yyvsp[0]); }
-#line 1596 "y.tab.c"
+#line 1597 "y.tab.c"
     break;
 
   case 78: /* $@8: %empty  */
-#line 155 "parsertest.y"
+#line 156 "parsertest.y"
                   { add('K', yyvsp[0]); }
-#line 1602 "y.tab.c"
+#line 1603 "y.tab.c"
     break;
 
   case 80: /* $@9: %empty  */
-#line 156 "parsertest.y"
+#line 157 "parsertest.y"
                  { add('K', yyvsp[0]); }
-#line 1608 "y.tab.c"
+#line 1609 "y.tab.c"
     break;
 
   case 82: /* $@10: %empty  */
-#line 157 "parsertest.y"
+#line 158 "parsertest.y"
                  { add('K', yyvsp[0]); }
-#line 1614 "y.tab.c"
+#line 1615 "y.tab.c"
     break;
 
   case 84: /* $@11: %empty  */
-#line 158 "parsertest.y"
+#line 159 "parsertest.y"
                     { add('K', yyvsp[0]); }
-#line 1620 "y.tab.c"
+#line 1621 "y.tab.c"
     break;
 
   case 88: /* ELSE: T_ELSE BLOCK  */
-#line 165 "parsertest.y"
+#line 166 "parsertest.y"
                     {add('K', yyvsp[-1]);}
-#line 1626 "y.tab.c"
+#line 1627 "y.tab.c"
     break;
 
   case 90: /* $@12: %empty  */
-#line 169 "parsertest.y"
+#line 170 "parsertest.y"
            {++scope;}
-#line 1632 "y.tab.c"
+#line 1633 "y.tab.c"
     break;
 
   case 91: /* BLOCK: '{' $@12 STMT '}'  */
-#line 169 "parsertest.y"
+#line 170 "parsertest.y"
                               {--scope;}
-#line 1638 "y.tab.c"
+#line 1639 "y.tab.c"
     break;
 
 
-#line 1642 "y.tab.c"
+#line 1643 "y.tab.c"
 
       default: break;
     }
@@ -1831,7 +1832,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 170 "parsertest.y"
+#line 171 "parsertest.y"
 
 
 
@@ -1847,11 +1848,11 @@ int main(int argc, char* argv[])
 	yyparse();
     printf("\n\n");
     printf("\t\t\t\t\t PHASE 1: LEXICAL ANALYSIS \n\n");
-    printf("\nSYMBOL\tDATATYPE\tTYPE\tLINE NUMBER\tSCOPE\n");
+    printf("\nSYMBOL\tDATATYPE\tTYPE\tLINE NO\tCOL NO\tSCOPE\n");
     printf("_____________________________________________\n\n");
     int i=0;
     for(i=0; i<count; i++) {
-		printf("%s\t%s\t%s\t%d\t%d\n", symbol_table[i].id_name, symbol_table[i].data_type, symbol_table[i].type, symbol_table[i].line_no, symbol_table[i].scope);
+		printf("%s\t%s\t%s\t%d\t%d\t%d\n", symbol_table[i].id_name, symbol_table[i].data_type, symbol_table[i].type, symbol_table[i].line_no,symbol_table[i].column_no, symbol_table[i].scope);
 	}
     for (i=0; i< count; i++){
         free(symbol_table[i].id_name);
@@ -1879,6 +1880,7 @@ void add(char c, char* s){
         symbol_table[count].line_no=yylineno;
         symbol_table[count].type=strdup("Keyword\t");
         symbol_table[count].scope=scope;
+        symbol_table[count].column_no=colcount - yyleng;
         count++;
     }
     else if(c=='H'){
@@ -1887,6 +1889,7 @@ void add(char c, char* s){
         symbol_table[count].line_no=yylineno;
         symbol_table[count].type=strdup("Header\t");
         symbol_table[count].scope=scope;
+        symbol_table[count].column_no=colcount - yyleng;
         count++;
     }
     else if(c == 'C') {
@@ -1895,6 +1898,7 @@ void add(char c, char* s){
         symbol_table[count].line_no=yylineno;
         symbol_table[count].type=strdup("Constant");
         symbol_table[count].scope=scope;
+        symbol_table[count].column_no=colcount - yyleng;
         count++;
     }
     if (!q){
@@ -1904,6 +1908,7 @@ void add(char c, char* s){
 			symbol_table[count].line_no=yylineno;
 			symbol_table[count].type=strdup("Variable");
             symbol_table[count].scope=scope;
+            symbol_table[count].column_no=colcount - yyleng;
 			count++;
 		}
 		else if(c == 'F') {
@@ -1912,6 +1917,7 @@ void add(char c, char* s){
 			symbol_table[count].line_no=yylineno;
 			symbol_table[count].type=strdup("Function");
             symbol_table[count].scope=scope;
+            symbol_table[count].column_no=colcount - yyleng;
 			count++;
         }
     }

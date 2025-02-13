@@ -92,7 +92,7 @@ number	{digits}{opFraction}{opExponent}
             colcount += yyleng;
 			return T_ID;
 		}
-.		{ } 
+.		{colcount += yyleng;} 
 %%
 
 

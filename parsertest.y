@@ -18,6 +18,7 @@
         char* data_type;
         char* type;
         int line_no;
+        int column_no;
         int scope;
     } symbol_table[100];
 
@@ -182,11 +183,11 @@ int main(int argc, char* argv[])
 	yyparse();
     printf("\n\n");
     printf("\t\t\t\t\t PHASE 1: LEXICAL ANALYSIS \n\n");
-    printf("\nSYMBOL\tDATATYPE\tTYPE\tLINE NUMBER\tSCOPE\n");
+    printf("\nSYMBOL\tDATATYPE\tTYPE\tLINE NO\tCOL NO\tSCOPE\n");
     printf("_____________________________________________\n\n");
     int i=0;
     for(i=0; i<count; i++) {
-		printf("%s\t%s\t%s\t%d\t%d\n", symbol_table[i].id_name, symbol_table[i].data_type, symbol_table[i].type, symbol_table[i].line_no, symbol_table[i].scope);
+		printf("%s\t%s\t%s\t%d\t%d\t%d\n", symbol_table[i].id_name, symbol_table[i].data_type, symbol_table[i].type, symbol_table[i].line_no,symbol_table[i].column_no, symbol_table[i].scope);
 	}
     for (i=0; i< count; i++){
         free(symbol_table[i].id_name);
@@ -214,6 +215,7 @@ void add(char c, char* s){
         symbol_table[count].line_no=yylineno;
         symbol_table[count].type=strdup("Keyword\t");
         symbol_table[count].scope=scope;
+        symbol_table[count].column_no=colcount - yyleng;
         count++;
     }
     else if(c=='H'){
@@ -222,6 +224,7 @@ void add(char c, char* s){
         symbol_table[count].line_no=yylineno;
         symbol_table[count].type=strdup("Header\t");
         symbol_table[count].scope=scope;
+        symbol_table[count].column_no=colcount - yyleng;
         count++;
     }
     else if(c == 'C') {
@@ -230,6 +233,7 @@ void add(char c, char* s){
         symbol_table[count].line_no=yylineno;
         symbol_table[count].type=strdup("Constant");
         symbol_table[count].scope=scope;
+        symbol_table[count].column_no=colcount - yyleng;
         count++;
     }
     if (!q){
@@ -239,6 +243,7 @@ void add(char c, char* s){
 			symbol_table[count].line_no=yylineno;
 			symbol_table[count].type=strdup("Variable");
             symbol_table[count].scope=scope;
+            symbol_table[count].column_no=colcount - yyleng;
 			count++;
 		}
 		else if(c == 'F') {
@@ -247,6 +252,7 @@ void add(char c, char* s){
 			symbol_table[count].line_no=yylineno;
 			symbol_table[count].type=strdup("Function");
             symbol_table[count].scope=scope;
+            symbol_table[count].column_no=colcount - yyleng;
 			count++;
         }
     }

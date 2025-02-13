@@ -1210,7 +1210,7 @@ YY_RULE_SETUP
 case 62:
 YY_RULE_SETUP
 #line 95 "lexertest.l"
-{ } 
+{colcount += yyleng;} 
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
